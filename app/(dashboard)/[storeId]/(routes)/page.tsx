@@ -8,9 +8,9 @@ type pageProps = {
 
 
 
-const page = ({ params: { storeId } }: pageProps) => {
-
-    console.log(storeId)
+const page = ({ params }: pageProps) => {
+     
+    
 
     return (
         <div>page</div>

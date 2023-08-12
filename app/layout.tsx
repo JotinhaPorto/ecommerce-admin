@@ -4,7 +4,6 @@ import { Inter } from 'next/font/google'
 import Navbar from './components/navbar/navbar'
 import Modal from './components/modal/Modal'
 import CreateStoreModal from './components/modal/CreateStoreModal'
-import Provider from '@/providers/Providers'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,13 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Provider>
-          {/* <Navbar /> */}
+        {/* <Navbar /> */}
           sdfsdf
-          <CreateStoreModal />
-
-          {children}
-        </Provider>
+        <CreateStoreModal />
+        {children}
       </body>
     </html>
   )

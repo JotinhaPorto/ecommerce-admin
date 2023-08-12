@@ -1,13 +1,7 @@
-import { getCurrentuser } from "@/libs/session"
-import { authOptions } from '../pages/api/auth/[...nextauth]'
+import Image from 'next/image'
 
-export default async function Home() {
-
-  const user = await getCurrentuser()
-  if (!user) {
-    console.log('Não está logado')
-  }
+export default function Home() {
   return (
-    <div>{user?.name}</div>
+    <div></div>
   )
 }

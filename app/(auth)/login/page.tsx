@@ -1,6 +1,6 @@
 'use client'
 
-import { redirect, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { FieldValues, useForm } from 'react-hook-form'
 import axios from 'axios'
 import z from 'zod'
@@ -19,7 +19,7 @@ const page = () => {
         })
             .then((callback) => {
                 if (callback?.ok) {
-                    router.push('/')
+                    console.log('success')
                 }
             })
             .catch(() => {
