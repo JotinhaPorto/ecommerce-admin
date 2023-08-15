@@ -4,6 +4,7 @@ import Modal from "./Modal"
 import z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
+import axios from "axios"
 
 const createStoreModalSchema = z.object({
     storeName: z.string().nonempty('O nome da loja é obrigatório').min(6, 'O nome da loja precisa ter no minimo 6 caracteres').max(15, 'O nome da loja não pode ter mais que 15 caracteres')
@@ -21,6 +22,15 @@ const CreateStoreModal = () => {
 
     const onSubmit = (data: createStoreModalSchemaType) => {
         console.log(data)
+        axios.post('/api/stores', data)
+            .then((response) => {
+                console.log(response.data)
+                window.location.assign(`/${response.data.id}`)
+            })
+            .catch(() => {
+                console.log('Deu algum erro')
+            })
+
     }
 
     const formulario = (

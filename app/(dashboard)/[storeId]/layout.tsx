@@ -1,3 +1,8 @@
+import getCurrentUser from "@/actions/getCurrentUser";
+import getStores from "@/actions/getStores";
+import Navbar from "@/app/components/navbar/navbar";
+import prismadb from "@/libs/prisma";
+import { redirect } from "next/navigation";
 
 
 
@@ -10,10 +15,33 @@ type layoutProps = {
 
 
 
-const layout = ({ children, params }: layoutProps) => {
+const layout = async ({ children, params }: layoutProps) => {
+
+
+    const session = await getCurrentUser()
+
+    if (!session) {
+        redirect('/')
+    }
+
+
+    const store = await prismadb.store.findFirst({
+        where: {
+            id: params.storeId,
+            userId: session.id
+        }
+    })
+
+    console.log(store)
+
+    if (!store) {
+        redirect('/')
+    }
+
+
     return (
         <div>
-
+            <Navbar />
             {children}
         </div>
     )

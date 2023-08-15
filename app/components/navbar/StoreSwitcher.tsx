@@ -1,12 +1,16 @@
 'use client'
 import React, { useCallback, useState } from 'react'
 import { BiStore } from 'react-icons/bi'
-import { AiOutlineCheck, AiOutlineArrowUp, AiOutlineArrowDown } from 'react-icons/ai'
-import { LuArrowDownUp } from 'react-icons/lu'
 import { IoIosAddCircleOutline } from 'react-icons/io'
+import StoreInfo from './StoreInfo'
+import { AiOutlineArrowDown, AiOutlineArrowUp, AiOutlineCheck } from 'react-icons/ai'
+import { StoreType } from '@/types/StoreType'
 
+type StoreSwitcherProps = {
+    stores: StoreType[]
+}
 
-const StoreSwitcher = () => {
+const StoreSwitcher = ({ stores }: StoreSwitcherProps) => {
 
     const [isOpen, setIsOpen] = useState(false)
     const toggle = useCallback(() => {
@@ -39,20 +43,16 @@ const StoreSwitcher = () => {
                             </div>
                         </form>
                         <ul className='flex gap-1 flex-col border-y  py-2 px-2 text-sm'>
-                            <li className='hover:bg-[#EFF2FA] cursor-pointer'>
-                                <div className='flex justify-between items-center px-2'>
-                                    <span>Loja 1</span>
-                                    <AiOutlineCheck />
-                                </div>
-                            </li>
-                            <li className='hover:bg-[#EFF2FA] cursor-pointer'>
-                                <div className='flex justify-between items-center px-2'>
-                                    <span>Renneresxcddddd</span>
-                                    <AiOutlineCheck />
-                                </div>
-                            </li>
+                            {stores.map((item: StoreType) => {
+                                return (
+                                    <StoreInfo
+                                        key={item.id}
+                                        data={item}
+                                    />
+                                )
+                            })}
                         </ul>
-                        <div className='    flex items-center py-2 px-2 gap-2 hover:bg-[#EFF2FA]'>
+                        <div className='flex items-center py-2 px-2 gap-2 hover:bg-[#EFF2FA]'>
                             <button className='flex items-center gap-2'><IoIosAddCircleOutline />Criar loja</button>
                         </div>
                     </div>
