@@ -2,8 +2,6 @@
 
 import { useRouter } from 'next/navigation'
 import { FieldValues, useForm } from 'react-hook-form'
-import axios from 'axios'
-import z from 'zod'
 import { signIn } from 'next-auth/react'
 
 const page = () => {
@@ -20,6 +18,8 @@ const page = () => {
             .then((callback) => {
                 if (callback?.ok) {
                     console.log('success')
+                    router.refresh()
+                    router.push('/')
                 }
             })
             .catch(() => {

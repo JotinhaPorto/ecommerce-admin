@@ -13,7 +13,8 @@ const page = ({ params }: pageProps) => {
     
 
     return (
-        <div>page</div>
+       <>
+       </>
     )
 }
 

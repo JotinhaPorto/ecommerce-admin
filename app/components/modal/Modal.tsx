@@ -30,8 +30,8 @@ const Modal = ({ isOpen, form, onClose, description, title, body }: ModalProps) 
     }
 
     return (
-        <div className="fixed inset-0 backdrop-blur-sm flex justify-center items-center ">
-            <div className="border border-[#D9D9D9] max-w-lg w-full rounded px-2 py-4  sm:py-8 sm:px-4 flex flex-col shadow-lg">
+        <div className="fixed inset-0 backdrop-blur-sm flex justify-center items-center z-30">
+            <div className="border border-[#D9D9D9] max-w-lg w-full rounded px-2 py-4  sm:py-8 sm:px-4 flex flex-col shadow-lg bg-white">
                 <div className="flex justify-between">
                     <div className="flex flex-col gap-2">
                         <h1 className="font-semibold text-xl">{title}</h1>

@@ -4,4 +4,4 @@ export type StoreType = {
     userId: string;
     createdAt: Date;
     updatedAt: Date;
-}
+} | null

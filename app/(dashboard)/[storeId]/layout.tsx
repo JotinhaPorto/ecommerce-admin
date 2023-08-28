@@ -32,7 +32,7 @@ const layout = async ({ children, params }: layoutProps) => {
         }
     })
 
-    console.log(store)
+   
 
     if (!store) {
         redirect('/')
@@ -40,10 +40,10 @@ const layout = async ({ children, params }: layoutProps) => {
 
 
     return (
-        <div>
+        <>
             <Navbar />
             {children}
-        </div>
+        </>
     )
 }
 

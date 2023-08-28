@@ -2,23 +2,34 @@
 
 import getStores from '@/actions/getStores'
 import { StoreType } from '@/types/StoreType'
+import { usePathname, useRouter } from 'next/navigation'
 import { AiOutlineCheck } from 'react-icons/ai'
 
 type StoreInfoProps = {
-    data: StoreType
+    data: StoreType;
+    currentStore?: {
+        value: string,
+        label: string
+    }
 }
 
-const StoreInfo = ({ data }: StoreInfoProps) => {
+const StoreInfo = ({ data, currentStore }: StoreInfoProps) => {
 
+    const router = useRouter()
 
     return (
-        <li key={data.id} className='hover:bg-[#EFF2FA] cursor-pointer'>
-            <div className='flex justify-between items-center px-2'>
-                <span>{data.name}</span>
-                <AiOutlineCheck />
+        <li key={data?.id} className=' cursor-pointer'>
+            <div
+                onClick={() => router.push(`/${data?.id}`)}
+                className={`flex justify-between items-center px-2 ${currentStore?.value === data?.id ? 'bg-[#EFF2FA]' : 'bg-white'}`}
+            >
+                <span>{data?.name}</span>
+                {currentStore?.value === data?.id && (
+                    <AiOutlineCheck />
+                )}
             </div>
-        </li>
+        </li >
     )
 }
 
-export default StoreInfo
+export default StoreInfo;
