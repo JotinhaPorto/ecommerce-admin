@@ -7,6 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
 import { useState } from "react"
 import Input from "../Input"
+import { Button } from "../Button"
+import toast from "react-hot-toast"
 
 const createStoreModalSchema = z.object({
     storeName: z.string().nonempty('O nome da loja é obrigatório').min(6, 'O nome da loja precisa ter no minimo 6 caracteres').max(15, 'O nome da loja não pode ter mais que 15 caracteres')
@@ -28,6 +30,7 @@ const CreateStoreModal = () => {
             .then((response) => {
                 window.location.assign(`/${response.data.id}`)
                 createStore.onClose()
+                toast.success('Loja criada com sucesso')
             })
             .catch(() => {
                 console.log('Deu algum erro')
@@ -61,9 +64,8 @@ const CreateStoreModal = () => {
                     />
                 </div>
                 <div className="flex justify-end gap-2">
-                    <button className='bg-white hover:bg-red-500 hover:text-white  mt-2 py-2 px-4 border border-[#D9D9D9] rounded'>Cancelar</button>
-                    <button disabled={isLoading} type='submit' className='bg-[#121425] hover:bg-slate-800 text-white mt-2 py-2 px-4 rounded   disabled:opacity-70
-                disabled:cursor-not-allowed'>Continuar</button>
+                    <Button variant='primary'>Cancelar</Button>
+                    <Button disabled={isLoading}>Continuar</Button>
                 </div>
             </form>
         </div>

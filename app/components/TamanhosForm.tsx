@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import Button from "./Button"
+
 import { useForm } from "react-hook-form"
 import z from 'zod'
 import axios from "axios"
@@ -11,6 +11,9 @@ import Heading from "./Heading"
 import { BsTrash } from "react-icons/bs"
 import useCancelModal from "../hooks/useCancelModal"
 import CancelModal from "./modal/CancelModal"
+import { Button } from "./Button"
+import { useState } from "react"
+import toast from "react-hot-toast"
 
 type TamanhosForm = {
     size: Size | null;
@@ -31,6 +34,7 @@ const TamanhosForm = ({ size }: TamanhosForm) => {
     const cancelModal = useCancelModal()
     const params = useParams()
     const router = useRouter()
+    const [isLoading, setIsLoading] = useState(false)
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(TamanhosFormSchema), defaultValues: size || {
             name: '',
@@ -40,10 +44,13 @@ const TamanhosForm = ({ size }: TamanhosForm) => {
 
     const onSubmit = async (data: TamanhosFormSchemaType) => {
         try {
+            setIsLoading(true)
             if (size) {
                 await axios.patch(`/api/${params.storeId}/tamanhos/${params.sizeId}`, data)
+                toast.success('Alterações salvas')
             } else {
                 await axios.post(`/api/${params.storeId}/tamanhos`, data)
+                toast.success('Tamanho criado')
             }
 
             router.refresh()
@@ -53,6 +60,9 @@ const TamanhosForm = ({ size }: TamanhosForm) => {
         catch (error: any) {
             console.log('[ERRO TAMANHO FORM REQ]', error)
         }
+        finally {
+            setIsLoading(false)
+        }
     }
 
 
@@ -61,11 +71,14 @@ const TamanhosForm = ({ size }: TamanhosForm) => {
             await axios.delete(`/api/${params.storeId}/tamanhos/${params.sizeId}`);
             router.refresh()
             router.push(`/${params.storeId}/tamanhos`)
-            console.log('deletado com sucesso')
+            toast.success('deletado com sucesso')
             cancelModal.onClose()
         }
         catch (error: any) {
-            console.log(error)
+            if (error.response.status === 400) {
+                toast.error(error.response.data)
+                cancelModal.onClose()
+            }
         }
     }
 
@@ -82,9 +95,9 @@ const TamanhosForm = ({ size }: TamanhosForm) => {
                 />
                 {size && (
                     <div>
-                        <button className=" p-3 rounded text-white bg-red-500 hover:bg-red-400" onClick={() => cancelModal.onOpen()}>
-                            <BsTrash />
-                        </button>
+                        <Button onClick={() => cancelModal.onOpen()} variant='secondary' size='icon'>
+                            <BsTrash className='h-4 w-4' />
+                        </Button>
                     </div>
                 )}
             </div>
@@ -103,12 +116,9 @@ const TamanhosForm = ({ size }: TamanhosForm) => {
                     </div>
                 </div>
 
-                <Button
-                    containerStyles="rounded max-w-fit bg-[#121425] hover:bg-slate-800 text-white mt-2 py-2 px-6"
-                    disabled={false}
-                    label={action}
-
-                />
+                <div>
+                    <Button size='lg' disabled={isLoading}>{action}</Button>
+                </div>
             </form>
         </>
     )

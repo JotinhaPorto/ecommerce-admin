@@ -3,6 +3,7 @@ import { AuthOptions } from "next-auth"
 import bcrypt from 'bcrypt'
 import prisma from "./prisma"
 import CredentialsProvider from 'next-auth/providers/credentials'
+import { AuthUser } from "@/types/AuthUser"
 
 export const authOptions: AuthOptions = {
     adapter: PrismaAdapter(prisma),
@@ -21,7 +22,7 @@ export const authOptions: AuthOptions = {
                 const user = await prisma.user.findUnique({
                     where: {
                         email: credentials.email
-                    }
+                    } 
                 })
 
                 if (!user || !user?.hashedPassword) {
@@ -46,7 +47,7 @@ export const authOptions: AuthOptions = {
             return token
         },
         session: async ({ session, token }) => {
-            if (token) session.user = token.user as any
+            if (token) session.user = token.user as AuthUser
             return session
         }
     },

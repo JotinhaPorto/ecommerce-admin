@@ -23,7 +23,7 @@ const page = async ({ params }: pageProps) => {
 
 
     return (
-        <div className='pt-24 px-6 sm:pt-20'>
+        <div className='pt-4 px-6 '>
             <ConfigForm store={store} />
         </div>
     )

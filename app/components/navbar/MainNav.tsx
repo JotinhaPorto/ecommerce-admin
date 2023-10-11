@@ -8,6 +8,11 @@ const MainNav = () => {
     const pathname = usePathname()
     const params = useParams()
     const routes = [
+        // {
+        //     href: `/${params.storeId}/`,
+        //     label: 'Dashboard',
+        //     active: pathname === `/${params.storeId}`
+        // },
         {
             href: `/${params.storeId}/configuracoes`,
             label: 'Configurações',
@@ -22,6 +27,26 @@ const MainNav = () => {
             href: `/${params.storeId}/cores`,
             label: 'Cores',
             active: pathname === `/${params.storeId}/cores`
+        },
+        {
+            href: `/${params.storeId}/outdoors`,
+            label: 'Outdoors',
+            active: pathname === `/${params.storeId}/outdoors`
+        },
+        {
+            href: `/${params.storeId}/categorias`,
+            label: 'Categorias',
+            active: pathname === `/${params.storeId}/categorias`
+        },
+        {
+            href: `/${params.storeId}/produtos`,
+            label: 'Produtos',
+            active: pathname === `/${params.storeId}/produtos`
+        },
+        {
+            href: `/${params.storeId}/pedidos`,
+            label: 'Pedidos',
+            active: pathname === `/${params.storeId}/pedidos`
         }
     ]
 

@@ -1,6 +1,7 @@
 'use client'
 import useCancelModal from '@/app/hooks/useCancelModal'
 import Modal from './Modal'
+import { Button } from '../Button';
 type CancelModalProps = {
     onDelete?: () => void;
 }
@@ -12,9 +13,12 @@ const CancelModal = ({ onDelete }: CancelModalProps) => {
     const body = (
         <div className='mt-8'>
             <div className="flex justify-end gap-2">
-                <button className='bg-white hover:bg-red-500 hover:text-white  mt-2 py-2 px-4 border border-[#D9D9D9] rounded'
-                    onClick={() => cancelModal.onClose()} >Cancelar</button>
-                <button onClick={onDelete} type='submit' className='bg-[#121425] hover:bg-slate-800 text-white mt-2 py-2 px-4 rounded' >Continuar</button>
+                <Button onClick={() => cancelModal.onClose()} variant='primary' >
+                    Cancelar
+                </Button>
+                <Button onClick={onDelete}>
+                    Continuar
+                </Button>
             </div>
         </div>
     )

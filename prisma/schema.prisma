@@ -18,7 +18,7 @@ model User {
   image          String?
   hashedPassword String?
   createdAt      DateTime  @default(now())
-  updatedAt      DateTime @updatedAt
+  updatedAt      DateTime  @updatedAt
   accounts       Account[]
   store          Store[]
 }
@@ -49,9 +49,13 @@ model Store {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  size Size[]
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  size       Size[]
+  color      Color[]
+  Outdoor    Outdoor[]
+  Categorias Categorias[]
+  Produtos   Produtos[]
+  Order      Order[]
 }
 
 model Size {
@@ -62,5 +66,92 @@ model Size {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  store    Store      @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  Produtos Produtos[]
+}
+
+model Color {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  value     String
+  storeId   String   @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  store    Store      @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  Produtos Produtos[]
+}
+
+model Outdoor {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  imageSrc  String
+  label     String
+  storeId   String   @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  store      Store        @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  Categorias Categorias[]
+}
+
+model Categorias {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  storeId   String   @db.ObjectId
+  outdoorId String   @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  outdoor  Outdoor    @relation(fields: [outdoorId], references: [id], onDelete: Cascade)
+  store    Store      @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  Produtos Produtos[]
+}
+
+model Produtos {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  price        Int
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  storeId      String      @db.ObjectId
+  categoriasId String      @db.ObjectId
+  sizeId       String      @db.ObjectId
+  colorId      String      @db.ObjectId
+  isFeatured   Boolean     @default(false)
+  isArchived   Boolean     @default(false)
+  store        Store       @relation(fields: [storeId], references: [id])
+  categorias   Categorias  @relation(fields: [categoriasId], references: [id])
+  size         Size        @relation(fields: [sizeId], references: [id])
+  Color        Color       @relation(fields: [colorId], references: [id])
+  Image        Image[]
+  OrderItem    OrderItem[]
+}
+
+model Image {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  url        String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  produtosId String   @db.ObjectId
+  produtos   Produtos @relation(fields: [produtosId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  storeId   String      @db.ObjectId
+  isPaid    Boolean     @default(false)
+  phone     String      @default("")
+  address   String      @default("")
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  store     Store       @relation(fields: [storeId], references: [id])
+  OrderItem OrderItem[]
+}
+
+model OrderItem {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  orderId   String   @db.ObjectId
+  productId String   @db.ObjectId
+  order     Order    @relation(fields: [orderId], references: [id])
+  product   Produtos @relation(fields: [productId], references: [id])
 }

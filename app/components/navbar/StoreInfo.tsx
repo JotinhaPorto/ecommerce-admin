@@ -8,8 +8,8 @@ import { AiOutlineCheck } from 'react-icons/ai'
 type StoreInfoProps = {
     data: StoreType;
     currentStore?: {
-        value: string,
-        label: string
+        value: string | undefined,
+        label: string | undefined
     }
 }
 

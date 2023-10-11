@@ -2,7 +2,7 @@ import getCurrentUser from "@/actions/getCurrentUser";
 import prismadb from "@/libs/prisma";
 import { NextResponse } from "next/server";
 
-export  async function POST(request: Request, { params }: { params: { storeId: string } }) {
+export async function POST(request: Request, { params }: { params: { storeId: string } }) {
     try {
         const body = await request.json()
         const { name, value } = body
@@ -36,3 +36,24 @@ export  async function POST(request: Request, { params }: { params: { storeId: s
         return new NextResponse("Erro interno", { status: 500 })
     }
 }
+
+export async function GET(
+    req: Request,
+    { params }: { params: { storeId: string } }
+) {
+    try {
+        if (!params.storeId) {
+            return new NextResponse("Store id is required", { status: 400 });
+        }
+
+        const sizes = await prismadb.size.findMany({
+            where: {
+                storeId: params.storeId
+            }
+        });
+
+        return NextResponse.json(sizes);
+    } catch (error) {
+        return new NextResponse("Erro interno", { status: 500 });
+    }
+};

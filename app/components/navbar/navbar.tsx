@@ -1,12 +1,9 @@
-import { StoreType } from "@/types/StoreType"
 import StoreSwitcher from "./StoreSwitcher"
-import prismadb from "@/libs/prisma";
 import getCurrentUser from "@/actions/getCurrentUser";
 import { redirect } from "next/navigation";
 import getStores from "@/actions/getStores";
-import { signOut } from "next-auth/react";
+import MainNav from "./MainNav";
 import User from "../User";
-import MainNav from "../MainNav";
 
 
 
@@ -22,11 +19,13 @@ const Navbar = async () => {
     const stores = await getStores(session.id)
 
     return (
-        <div className='fixed w-full z-10  shadow-sm'>
-            <div className='border-b-[1px] py-2 px-4 flex items-center gap-6'>
-                <StoreSwitcher stores={stores} />
-                <MainNav />
-                {/* <User user={session} /> */}
+        <div className='relative w-full z-10  shadow-sm bg-white'>
+            <div className='border-b-[1px] py-2 px-4 flex items-center justify-between gap-6 '>
+                <div className="flex items-center gap-4">
+                    <StoreSwitcher stores={stores} />
+                    <MainNav />
+                </div>
+                <User user={session} />
             </div>
         </div>
     )

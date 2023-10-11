@@ -8,7 +8,7 @@ const page = async ({ params }: pageProps) => {
     const size = await getSizeOrNull(params.sizeId)
     console.log(size)
     return (
-        <div className='pt-24 px-6 sm:pt-20'>
+        <div className='pt-4 px-6 '>
             <TamanhosForm size={size} />
         </div>
     )

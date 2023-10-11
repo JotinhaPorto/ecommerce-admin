@@ -2,6 +2,29 @@ import getCurrentUser from "@/actions/getCurrentUser"
 import prismadb from "@/libs/prisma"
 import { NextResponse } from "next/server"
 
+
+export async function GET(
+    req: Request,
+    { params }: { params: { sizeId: string } }
+) {
+    try {
+        if (!params.sizeId) {
+            return new NextResponse('O sizeId é necessário', { status: 400 })
+        }
+
+        const size = await prismadb.size.findUnique({
+            where: {
+                id: params.sizeId
+            }
+        });
+
+        return NextResponse.json(size);
+    } catch (error) {
+        return new NextResponse("Erro interno do servidor", { status: 500 })
+    }
+};
+
+
 export async function PATCH(request: Request, { params }: { params: { sizeId: string } }) {
     try {
         const body = await request.json()
@@ -44,6 +67,14 @@ export async function DELETE(request: Request, { params }: { params: { sizeId: s
         }
         if (!params.sizeId) {
             return new NextResponse('O sizeId é necessário', { status: 400 })
+        }
+        const productWithThisSize = await prismadb.produtos.findMany({
+            where: {
+                sizeId: params.sizeId
+            }
+        })
+        if (productWithThisSize.length > 0) {
+            return new NextResponse("Não é possível apagar, pois o tamanho está sendo usado em algum produto", { status: 400 })
         }
         const size = await prismadb.size.delete({
             where: {

@@ -1,10 +1,13 @@
 'use client'
 
-import Button from '@/app/components/Button'
+
 import Heading from '@/app/components/Heading'
 import { useParams, useRouter } from 'next/navigation'
 import { SizeType } from '@/types/SizeType'
 import TamanhosItem from './TamanhosItem'
+import { Button } from './Button'
+import ApiItem from './api-item'
+import ApiList from './api-list'
 
 type TamanhosTableProps = {
     size: SizeType[] | null
@@ -20,22 +23,14 @@ const TamanhosTable = ({ size }: TamanhosTableProps) => {
         <>
             <div className='flex justify-between'>
                 <Heading
-                    title='Tamanhos'
+                    title={`Tamanhos(${size?.length})`}
                     description='Gerencie os tamanhos dos seus produtos'
                 />
                 <div onClick={() => router.push(`/${params.storeId}/tamanhos/new`)}>
-                    <Button
-
-                        label='+ Adicionar novo'
-                        containerStyles='bg-[#0F1626] text-white py-2 px-4 rounded hover:bg-slate-800'
-                        disabled={false}
-                    />
+                    <Button size='lg'>+ Adicionar novo</Button>
                 </div>
             </div>
             <div className='border-b py-2'></div>
-            <div className='py-4'>
-                SEARCH!
-            </div>
             <table className='w-full my-2 border rounded'>
                 <thead>
                     <tr className='border-b  '>
@@ -54,6 +49,7 @@ const TamanhosTable = ({ size }: TamanhosTableProps) => {
                     ))}
                 </tbody>
             </table>
+            <ApiList name='tamanhos' idName='sizeId'/>
         </>
     )
 }
